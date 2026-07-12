@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>subnet_calculator</title>
+  <link rel="stylesheet" href="styles.css?v=70" />
+  </head>
+  <body>
+      <header class="site-header">
+        <a class="brand" href="#inicio" aria-label="Inicio" data-i18n-aria-label="nav.home">
+          <img class="brand-logo" src="assets/navbar-koala-logo.png" alt="" />
+          <span class="brand-text" data-i18n="brand.title">Calculadora de subredes</span>
+        </a>
+        <nav class="main-nav" aria-label="Navegación principal" data-i18n-aria-label="nav.aria">
+          <a class="active" href="#inicio">
+            <span data-i18n="nav.home">Inicio</span>
+          </a>
+          <a href="#calculadora">
+            <span data-i18n="nav.calculator">Calculadora</span>
+          </a>
+          <a href="#guia">
+            <span data-i18n="nav.guide">Guía</span>
+          </a>
+        </nav>
+        <div class="header-actions">
+          <div class="language-switch" role="group" aria-label="Cambiar idioma" data-i18n-aria-label="language.aria">
+            <button class="language-option active" type="button" data-lang="es" aria-label="Español" aria-pressed="true">
+              <span class="flag flag-mx" aria-hidden="true"></span>
+            </button>
+            <button class="language-option" type="button" data-lang="en" aria-label="English" aria-pressed="false">
+              <span class="flag flag-us" aria-hidden="true"></span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+    <div class="top-stage">
+      <div class="hero-video-layer" aria-hidden="true">
+        <video class="hero-video" autoplay muted playsinline preload="auto">
+          <source src="assets/network03.mp4" type="video/mp4" />
+        </video>
+      </div>
+
+      <section class="home-hero" id="inicio">
+        <div class="hero-copy">
+          <h1 class="typing-hero" aria-label="Simula. Calcula. Entiende redes." data-i18n-aria-label="hero.aria">
+            <span class="hero-fixed-line" data-i18n="hero.line1">Simula.</span>
+            <span class="hero-fixed-line" data-i18n="hero.line2">Calcula.</span>
+            <span class="typing-line">
+              <span id="heroTypingText">Entiende redes.</span><span class="typing-caret" aria-hidden="true"></span>
+            </span>
+          </h1>
+          <p data-i18n="hero.copy">Herramienta interactiva para calcular subredes IPv4 de forma rápida, precisa y visual.</p>
+        </div>
+
+        <div class="hero-earth" aria-hidden="true">
+          <img src="assets/digital-earth.gif" alt="" />
+        </div>
+      </section>
+    </div>
+
+    <main>
+      <section class="app-shell calculator-shell" id="calculadora">
+        <header class="topbar"></header>
+
+      <h2 class="calculator-main-title" data-i18n="calculator.heading">Calculadora</h2>
+      <div class="status-chip calculator-alert" id="statusChip" hidden>
+        <span class="status-dot"></span>
+        <span class="status-message" id="statusMessage">Completa los campos requeridos para calcular.</span>
+        <button class="status-close" type="button" id="statusClose" aria-label="Cerrar alerta">×</button>
+      </div>
+
+      <section class="workspace" aria-label="Calculadora de subnetting" data-i18n-aria-label="calculator.aria">
+        <form class="panel form-panel" id="calculatorForm">
+          <div class="panel-heading">
+            <button class="icon-button" type="button" id="loadExample" title="Cargar ejemplo" aria-label="Cargar ejemplo" data-i18n-title="form.example" data-i18n-aria-label="form.example">
+              <svg aria-hidden="true" viewBox="0 0 24 24">
+                <path d="M4 4v6h6" />
+                <path d="M20 20v-6h-6" />
+                <path d="M20 9a8 8 0 0 0-14.3-3.3L4 10" />
+                <path d="M4 15a8 8 0 0 0 14.3 3.3L20 14" />
+              </svg>
+            </button>
+          </div>
+
+          <label class="field">
+            <span data-i18n="form.ip">Dirección IP</span>
+            <input id="ipAddress" type="text" inputmode="numeric" value="192.168.10.0" placeholder="192.168.1.0" autocomplete="off" />
+          </label>
+
+          <label class="field">
+            <span data-i18n="form.cidr">Prefijo CIDR</span>
+            <div class="range-row">
+              <input id="cidrRange" type="range" min="1" max="32" value="24" />
+              <input id="cidrInput" class="cidr-input" type="number" min="1" max="32" value="24" aria-label="Prefijo CIDR" data-i18n-aria-label="form.cidr" />
+            </div>
+            <small class="field-hint" data-i18n="form.cidrHint">Ejemplo: /24</small>
+          </label>
+
+          <div class="field">
+            <span data-i18n="form.mode">Modo de cálculo</span>
+            <div class="segmented" role="tablist" aria-label="Modo de cálculo" data-i18n-aria-label="form.mode">
+              <button type="button" class="segment active" data-mode="flsm">FLSM</button>
+              <button type="button" class="segment" data-mode="vlsm">VLSM</button>
+            </div>
+            <div class="mode-help" aria-live="polite">
+              <p><strong>FLSM:</strong> <span data-i18n="form.flsmHelp">Divide la red en subredes del mismo tamaño.</span></p>
+              <p><strong>VLSM:</strong> <span data-i18n="form.vlsmHelp">Crea subredes de tamaños diferentes según los hosts requeridos.</span></p>
+            </div>
+          </div>
+
+          <label class="field" id="subnetCountField">
+            <span data-i18n="form.requiredSubnets">Subredes requeridas</span>
+            <input id="subnetCount" type="number" min="1" max="512" value="4" />
+          </label>
+
+          <label class="field hidden" id="vlsmField">
+            <span data-i18n="form.hostsPerSubnet">Hosts por subred</span>
+            <textarea id="vlsmHosts" rows="4" placeholder="Ejemplo:&#10;60&#10;28&#10;12&#10;6" data-i18n-placeholder="form.hostsPlaceholder"></textarea>
+          </label>
+
+          <button class="primary-button" type="submit">
+            <span data-i18n="form.calculate">Calcular subredes</span>
+          </button>
+        </form>
+
+        <section class="panel results-panel" aria-live="polite">
+          <div class="panel-heading">
+            <h2 data-i18n="results.summary">Resumen</h2>
+            <span class="network-tag" id="networkTag">192.168.10.0/24</span>
+          </div>
+
+          <div class="summary-grid" id="summaryGrid"></div>
+        </section>
+      </section>
+
+      <section class="panel table-panel">
+        <div class="panel-heading">
+          <div>
+            <h2 data-i18n="table.title">Tabla de subredes</h2>
+            <p id="tableHint">Primeras subredes generadas con el prefijo calculado.</p>
+          </div>
+          <button class="secondary-button" id="copyTable" type="button">
+            <svg aria-hidden="true" viewBox="0 0 24 24">
+              <rect x="9" y="9" width="13" height="13" rx="2" />
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+            </svg>
+            <span data-i18n="table.copy">Copiar</span>
+          </button>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th data-i18n="table.subnet">Subred</th>
+                <th data-i18n="table.requestedHosts">Hosts solicitados</th>
+                <th data-i18n="table.prefix">Prefijo</th>
+                <th data-i18n="table.network">Network</th>
+                <th data-i18n="table.firstHost">Primer host</th>
+                <th data-i18n="table.lastHost">Último host</th>
+                <th>Broadcast</th>
+                <th data-i18n="table.usableHosts">Hosts útiles</th>
+              </tr>
+            </thead>
+            <tbody id="subnetTable"></tbody>
+          </table>
+        </div>
+      </section>
+      </section>
+
+      <section class="guide-section" id="guia" aria-labelledby="guideTitle">
+        <div class="guide-copy">
+          <h2 id="guideTitle" data-i18n="guide.title">Lee una subred sin perderte en los bits.</h2>
+          <div class="calculator-steps">
+            <h3 data-i18n="guide.steps.title">Cómo funciona la calculadora</h3>
+            <ol class="guide-list guide-steps-list">
+              <li data-i18n="guide.steps.item1">Ingresa la dirección IP base.</li>
+              <li data-i18n="guide.steps.item2">Elige el prefijo CIDR de la red.</li>
+              <li data-i18n="guide.steps.item3">Selecciona FLSM o VLSM según tu caso.</li>
+              <li data-i18n="guide.steps.item4">Indica cuántas subredes o hosts necesitas.</li>
+              <li data-i18n="guide.steps.item5">Presiona calcular y revisa el resumen y la tabla.</li>
+            </ol>
+          </div>
+          <div class="guide-concepts">
+            <h3 class="guide-concepts-title" data-i18n="guide.concepts.title">Conceptos clave</h3>
+          <ul class="guide-list guide-concepts-list">
+            <li data-i18n="guide.item1"><strong>Red:</strong> Dirección que identifica el inicio de una subred.</li>
+            <li data-i18n="guide.item2"><strong>Máscara:</strong> Valor que separa la parte de red y la parte de hosts.</li>
+            <li data-i18n="guide.item3"><strong>Prefijo:</strong> Número de bits usados para identificar la red.</li>
+            <li data-i18n="guide.item4"><strong>Broadcast:</strong> Dirección final usada para enviar a todos los hosts del bloque.</li>
+            <li data-i18n="guide.item5"><strong>Hosts útiles:</strong> Direcciones disponibles para asignar a dispositivos.</li>
+            <li data-i18n="guide.item6"><strong>Wildcard:</strong> Máscara inversa que indica qué bits pueden variar.</li>
+          </ul>
+          </div>
+        </div>
+        <div class="guide-visual" aria-hidden="true">
+          <img src="assets/quick-guide-mascot.png" alt="" />
+        </div>
+      </section>
+
+      <section class="capabilities" aria-labelledby="capabilitiesTitle">
+        <h2 id="capabilitiesTitle" data-i18n="capabilities.title">¿Qué puedes <span>hacer?</span></h2>
+        <div class="capability-marquee">
+          <div class="capability-grid">
+            <div class="capability-set">
+              <article>
+                <div class="capability-icon image-icon">
+                  <img src="assets/hosts-calculation-icon.png" alt="" />
+                </div>
+                <h3 data-i18n="capabilities.hosts.title">Cálculo por hosts</h3>
+                <p data-i18n="capabilities.hosts.copy">Ingresa hosts necesarios y encuentra una subred adecuada.</p>
+              </article>
+              <article>
+                <div class="capability-icon image-icon">
+                  <img src="assets/subnets-calculation-icon.png" alt="" />
+                </div>
+                <h3 data-i18n="capabilities.subnets.title">Cálculo por subredes</h3>
+                <p data-i18n="capabilities.subnets.copy">Define cuántas subredes necesitas y calcula parámetros automáticamente.</p>
+              </article>
+              <article>
+                <div class="capability-icon image-icon">
+                  <img src="assets/results-table-icon.png" alt="" />
+                </div>
+                <h3 data-i18n="capabilities.table.title">Tabla de resultados</h3>
+                <p data-i18n="capabilities.table.copy">Visualiza rangos, broadcast, máscara y hosts útiles.</p>
+              </article>
+              <article>
+                <div class="capability-icon image-icon">
+                  <img src="assets/binary-format-preview.png" alt="" />
+                </div>
+                <h3 data-i18n="capabilities.binary.title">Formato binario</h3>
+                <p data-i18n="capabilities.binary.copy">Revisa direcciones IP en binario para comprender mejor.</p>
+              </article>
+              <article>
+                <div class="capability-icon image-icon">
+                  <img src="assets/quick-guide-icon.png" alt="" />
+                </div>
+                <h3 data-i18n="capabilities.guide.title">Guía rápida</h3>
+                <p data-i18n="capabilities.guide.copy">Consulta pasos básicos para interpretar tus resultados.</p>
+              </article>
+            </div>
+            <div class="capability-set" aria-hidden="true">
+              <article>
+                <div class="capability-icon image-icon">
+                  <img src="assets/hosts-calculation-icon.png" alt="" />
+                </div>
+                <h3 data-i18n="capabilities.hosts.title">Cálculo por hosts</h3>
+                <p data-i18n="capabilities.hosts.copy">Ingresa hosts necesarios y encuentra una subred adecuada.</p>
+              </article>
+              <article>
+                <div class="capability-icon image-icon">
+                  <img src="assets/subnets-calculation-icon.png" alt="" />
+                </div>
+                <h3 data-i18n="capabilities.subnets.title">Cálculo por subredes</h3>
+                <p data-i18n="capabilities.subnets.copy">Define cuántas subredes necesitas y calcula parámetros automáticamente.</p>
+              </article>
+              <article>
+                <div class="capability-icon image-icon">
+                  <img src="assets/results-table-icon.png" alt="" />
+                </div>
+                <h3 data-i18n="capabilities.table.title">Tabla de resultados</h3>
+                <p data-i18n="capabilities.table.copy">Visualiza rangos, broadcast, máscara y hosts útiles.</p>
+              </article>
+              <article>
+                <div class="capability-icon image-icon">
+                  <img src="assets/binary-format-preview.png" alt="" />
+                </div>
+                <h3 data-i18n="capabilities.binary.title">Formato binario</h3>
+                <p data-i18n="capabilities.binary.copy">Revisa direcciones IP en binario para comprender mejor.</p>
+              </article>
+              <article>
+                <div class="capability-icon image-icon">
+                  <img src="assets/quick-guide-icon.png" alt="" />
+                </div>
+                <h3 data-i18n="capabilities.guide.title">Guía rápida</h3>
+                <p data-i18n="capabilities.guide.copy">Consulta pasos básicos para interpretar tus resultados.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+  <div class="copy-toast" id="copyToast" role="status" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="app.js?v=35"></script>
+</body>
+</html>
