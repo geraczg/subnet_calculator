@@ -37,7 +37,7 @@ const NAV_SOLID_OFFSET = 8;
 
 const translations = {
   es: {
-    "page.title": "subnet_calculator",
+    "page.title": "Subnet Calculator",
     "brand.title": "Calculadora de subredes",
     "nav.aria": "Navegación principal",
     "nav.home": "Inicio",
@@ -157,7 +157,7 @@ const translations = {
     "hint.vlsm": (used) => `VLSM ordenado de mayor a menor demanda; ${formatNumber(used)} direcciones reservadas.`,
   },
   en: {
-    "page.title": "subnet_calculator",
+    "page.title": "Subnet Calculator",
     "brand.title": "Subnet Calculator",
     "nav.aria": "Main navigation",
     "nav.home": "Home",
