@@ -2426,7 +2426,7 @@ tr:last-child td {
 @media (max-width: 880px) {
   .top-stage {
     min-height: 100svh;
-    padding-top: 128px;
+    padding-top: 112px;
   }
 
   .site-header {
@@ -2434,25 +2434,27 @@ tr:last-child td {
     top: 0;
     right: 0;
     left: 0;
-    flex-wrap: wrap;
-    gap: 14px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px 14px;
     min-height: 0;
     margin: 0;
     border-radius: 0 0 8px 8px;
-    padding: 18px;
+    padding: 12px 18px 14px;
   }
 
   .brand {
-    font-size: 1.28rem;
+    gap: 12px;
+    font-size: clamp(1.08rem, 4.8vw, 1.38rem);
   }
 
   .brand-logo {
-    width: 58px;
-    height: 58px;
+    width: 46px;
+    height: 46px;
   }
 
   .brand-text {
-    max-width: 13ch;
+    max-width: 12ch;
   }
 
   .matrix-brand {
@@ -2466,6 +2468,7 @@ tr:last-child td {
 
   .main-nav {
     order: 3;
+    grid-column: 1 / -1;
     width: 100%;
     justify-content: space-between;
     gap: 12px;
@@ -2486,17 +2489,18 @@ tr:last-child td {
   }
 
   .header-actions {
+    justify-self: end;
     gap: 10px;
   }
 
   .language-switch {
-    height: 48px;
+    height: 42px;
     gap: 8px;
   }
 
   .language-option {
-    width: 48px;
-    height: 48px;
+    width: 42px;
+    height: 42px;
   }
 
   .theme-button {
@@ -2506,8 +2510,9 @@ tr:last-child td {
 
   .home-hero {
     grid-template-columns: 1fr;
-    min-height: calc(100svh - 138px);
-    padding: 56px var(--page-gutter) 64px;
+    align-content: center;
+    min-height: calc(100svh - 112px);
+    padding: 34px var(--page-gutter) 56px;
     --video-position-desktop: var(--video-position-mobile);
   }
 
@@ -2520,11 +2525,7 @@ tr:last-child td {
   }
 
   .hero-earth {
-    min-height: 320px;
-  }
-
-  .hero-earth img {
-    width: min(86vw, 500px);
+    display: none;
   }
 
   .capability-grid {
@@ -2595,16 +2596,22 @@ tr:last-child td {
     --page-gutter: 16px;
   }
 
+  .top-stage {
+    padding-top: 118px;
+  }
+
   .home-hero {
-    padding-top: 34px;
+    min-height: calc(100svh - 118px);
+    padding-top: 28px;
   }
 
   .hero-copy h1 {
-    font-size: 2.58rem;
+    font-size: clamp(2.42rem, 12.5vw, 3.05rem);
   }
 
   .hero-copy p {
-    font-size: 1rem;
+    max-width: 31ch;
+    font-size: 1.04rem;
   }
 
   .network-visual {
@@ -2612,12 +2619,7 @@ tr:last-child td {
   }
 
   .hero-earth {
-    min-height: 300px;
-    justify-content: flex-start;
-  }
-
-  .hero-earth img {
-    width: min(92vw, 420px);
+    display: none;
   }
 
   .hero-video {
