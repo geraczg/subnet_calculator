@@ -501,9 +501,14 @@ function initScrollReveal() {
 function initHeroVideo() {
   if (!heroVideo) return;
 
+  const isMobileVideo = window.matchMedia("(max-width: 680px)").matches;
   let rafId = null;
   let restartTimer = null;
   let fadingOut = false;
+
+  heroVideo.controls = false;
+  heroVideo.disablePictureInPicture = true;
+  heroVideo.playbackRate = isMobileVideo ? 1.18 : 1;
 
   function fadeTo(target, duration = 700) {
     if (rafId) cancelAnimationFrame(rafId);

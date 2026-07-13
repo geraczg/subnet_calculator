@@ -679,6 +679,8 @@ textarea {
   z-index: 0;
   background: #030914;
   overflow: hidden;
+  pointer-events: none;
+  user-select: none;
 }
 
 .hero-video {
@@ -689,6 +691,8 @@ textarea {
   opacity: 0;
   filter: saturate(1.06) contrast(1.08) brightness(0.74);
   transform: scale(1.01);
+  pointer-events: none;
+  user-select: none;
   will-change: opacity;
 }
 
