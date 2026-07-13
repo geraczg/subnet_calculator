@@ -502,13 +502,21 @@ function initHeroVideo() {
   if (!heroVideo) return;
 
   const isMobileVideo = window.matchMedia("(max-width: 680px)").matches;
+  if (isMobileVideo) {
+    heroVideo.pause();
+    heroVideo.removeAttribute("src");
+    heroVideo.querySelectorAll("source").forEach((source) => source.remove());
+    heroVideo.load();
+    return;
+  }
+
   let rafId = null;
   let restartTimer = null;
   let fadingOut = false;
 
   heroVideo.controls = false;
   heroVideo.disablePictureInPicture = true;
-  heroVideo.playbackRate = isMobileVideo ? 1.18 : 1;
+  heroVideo.playbackRate = 1;
 
   function fadeTo(target, duration = 700) {
     if (rafId) cancelAnimationFrame(rafId);

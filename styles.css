@@ -2627,7 +2627,17 @@ tr:last-child td {
   }
 
   .hero-video {
-    object-position: var(--video-position-mobile);
+    display: none;
+  }
+
+  .hero-video-layer {
+    background:
+      radial-gradient(circle at 18% 28%, rgba(0, 194, 255, 0.16), transparent 28%),
+      radial-gradient(circle at 82% 16%, rgba(27, 100, 255, 0.16), transparent 24%),
+      linear-gradient(rgba(0, 194, 255, 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 194, 255, 0.08) 1px, transparent 1px),
+      linear-gradient(160deg, #061b34 0%, #03101f 48%, #020813 100%);
+    background-size: auto, auto, 86px 86px, 86px 86px, auto;
   }
 
   .globe {
